@@ -1,0 +1,45 @@
+<%-
+  accounts, error = SlurmData.accounts
+-%>
+---
+cluster: "acids"
+attributes:
+  num_cores:
+    label: Number of Cores
+    widget: number_field
+    min: 1
+    max: 12
+    step: 1
+    value: 2
+  memory:
+    label: Memory (GB)
+    help: Select amount of memory needed
+    widget: number_field
+    min: 1
+    max: 16
+  bc_num_slots: 1
+  custom_account:
+    label: Account
+    help: |
+      Please select an account from the drop down.
+    <%- if error -%>
+      <span class="text-danger">Error when parsing accounts:</span>
+      ```
+      <%= error.gsub("\n", "\n     ") %>
+      ```
+    <%- end -%>
+    <%- if accounts.empty? -%>
+    widget: text_field
+    <%- else -%>
+    widget: select
+    options:
+      <%- accounts.each do |q| -%>
+      - [ "<%= q %>", "<%= q %>" ]
+      <%- end -%>
+    <%- end -%>
+form:
+  - custom_account
+  - bc_num_hours
+  - num_cores
+  - memory
+  - bc_email_on_started

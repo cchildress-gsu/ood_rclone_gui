@@ -1,0 +1,20 @@
+<%-
+  mem_amount = memory.blank? ? 1 : memory.to_i
+  mem_string = "--mem=" + mem_amount.to_s + "G"
+  number_of_cores = num_cores.blank? ? 1 : num_cores.to_i
+  cpu_string = "--cpus-per-task=" + number_of_cores.to_s
+  native_array = [
+    "--partition=qDEV",
+    "--nodes=1",
+    "--ntasks=1",
+  ]
+  native_array.append(mem_string)
+  native_array.append(cpu_string)
+%>
+---
+batch_connect:
+  template: "basic"
+script:
+  copy_environment: true
+  accounting_id: "<%= custom_account %>"
+  native: <%= native_array %>

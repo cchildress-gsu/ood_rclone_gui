@@ -1,0 +1,4 @@
+# Load the module
+module load rclone
+
+rclone rcd --rc-web-gui --rc-addr=:${port} --rc-web-gui-no-open-browser --rc-baseurl /rclone/ --rc-no-auth -vvv
